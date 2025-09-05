@@ -40,7 +40,7 @@ const Inicio = () => {
         alt="fondo cafe"
       />
       <Container className="mt-5">
-        <h1 className="display-4">Nuestros Productos</h1>
+        <h1 className="display-4"> Productos</h1>
         <hr />
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">

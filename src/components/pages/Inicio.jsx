@@ -1,10 +1,6 @@
 import { Container, Row, Form } from "react-bootstrap";
 import CardProducto from "./producto/CardProducto";
-<<<<<<< HEAD
 import { useState, useEffect } from "react";
-=======
-import { useEffect, useState } from "react";
->>>>>>> dev
 import { leerProductos } from "../../helpers/queries";
 
 const Inicio = () => {
@@ -25,24 +21,7 @@ const Inicio = () => {
     }
   };
 
-  const [productos, setProductos] = useState([]);
-
-  useEffect(() => {
-    obtenerProductos();
-  }, []);
-
-  const obtenerProductos = async () => {
-    const respuesta = await leerProductos();
-    if (respuesta.status === 200) {
-      const datos = await respuesta.json();
-      setProductos(datos);
-    } else {
-      console.info("Ocurrio un error al buscar los productos");
-    }
-  };
-
   const handleInputChange = (e) => {
-    console.log(e.target.value);
     setTerminoBusqueda(e.target.value);
   };
 
@@ -60,7 +39,7 @@ const Inicio = () => {
         alt="fondo cafe"
       />
       <Container className="mt-5">
-        <h1 className="display-4"> Productos</h1>
+        <h1 className="display-4">Nuestros Productos</h1>
         <hr />
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">

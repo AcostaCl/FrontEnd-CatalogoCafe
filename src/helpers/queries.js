@@ -30,6 +30,7 @@ export const crearProducto = async (productoNuevo) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-token": JSON.parse(sessionStorage.getItem("userKey")),
       },
       body: JSON.stringify(productoNuevo),
     });
@@ -46,6 +47,7 @@ export const editarProducto = async (productoEditado, id) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "x-token": JSON.parse(sessionStorage.getItem("userKey")),
       },
       body: JSON.stringify(productoEditado),
     });
@@ -59,6 +61,9 @@ export const borrarProductoPorID = async (id) => {
   try {
     const respuesta = await fetch(urlproductos + `/${id}`, {
       method: "DELETE",
+      headers: {
+        "x-token": JSON.parse(sessionStorage.getItem("userKey")),
+      },
     });
     return respuesta;
   } catch (error) {

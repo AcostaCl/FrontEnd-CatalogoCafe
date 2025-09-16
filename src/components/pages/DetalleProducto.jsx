@@ -16,7 +16,11 @@ const DetalleProducto = () => {
     const respuesta = await obtenerProductoPorID(id);
     if (respuesta.status === 200) {
       const productoBuscado = await respuesta.json();
+<<<<<<< HEAD
       setProducto(productoBuscado)
+=======
+      setProducto(productoBuscado);
+>>>>>>> dev
     }
   };
 

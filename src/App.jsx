@@ -10,56 +10,65 @@ import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
 import { useEffect, useState } from "react";
 import ProtectorAdmin from "./components/routes/ProtectorAdmin";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const usuarioLogueado =
     JSON.parse(sessionStorage.getItem("userKey")) || false;
-  const productosLocalstorage = JSON.parse(localStorage.getItem('catalogoProductos')) || []
+  const productosLocalstorage =
+    JSON.parse(localStorage.getItem("catalogoProductos")) || [];
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
-  const [productos, setProductos] = useState(productosLocalstorage)
+  const [productos, setProductos] = useState(productosLocalstorage);
 
-  useEffect(()=>{
-    localStorage.setItem('catalogoProductos', JSON.stringify(productos))
-  }, [productos])
+  useEffect(() => {
+    localStorage.setItem("catalogoProductos", JSON.stringify(productos));
+  }, [productos]);
 
-  const crearProducto = (productoNuevo)=>{
+  useEffect(() => {
+    sessionStorage.setItem("userKey", JSON.stringify(usuarioAdmin));
+  }, [usuarioAdmin]);
+
+  const crearProducto = (productoNuevo) => {
     //agregar un id unico al producto Nuevo
     productoNuevo.id = uuidv4();
     //agregar el producto al state de productos
-    setProductos([...productos,productoNuevo])
-    return true
-  }
+    setProductos([...productos, productoNuevo]);
+    return true;
+  };
 
-  const borrarProducto = (idProducto)=>{
-    const productosFiltrados = productos.filter((itemProducto)=> itemProducto.id !==  idProducto)
-    setProductos(productosFiltrados)
-    return true
-  }
+  const borrarProducto = (idProducto) => {
+    const productosFiltrados = productos.filter(
+      (itemProducto) => itemProducto.id !== idProducto
+    );
+    setProductos(productosFiltrados);
+    return true;
+  };
 
-  const buscarProducto = (idProducto)=>{
-    const productoBuscado = productos.find((itemProducto)=> itemProducto.id ===  idProducto)
-    return productoBuscado
-  }
+  const buscarProducto = (idProducto) => {
+    const productoBuscado = productos.find(
+      (itemProducto) => itemProducto.id === idProducto
+    );
+    return productoBuscado;
+  };
 
-  const editarProducto = (idProducto, productoActualizado)=>{
-    const productosEditados = productos.map((itemProducto)=>{
-      if(itemProducto.id === idProducto){
+  const editarProducto = (idProducto, productoActualizado) => {
+    const productosEditados = productos.map((itemProducto) => {
+      if (itemProducto.id === idProducto) {
         return {
           ...itemProducto,
-          ...productoActualizado
-        }
-      }else{
-        return itemProducto
+          ...productoActualizado,
+        };
+      } else {
+        return itemProducto;
       }
-    })
+    });
 
-    console.log(productosEditados)
+    console.log(productosEditados);
     //actualizar el state
-    setProductos(productosEditados)
-    return true
-  }
-  
+    setProductos(productosEditados);
+    return true;
+  };
+
   return (
     <>
       <BrowserRouter>
@@ -69,10 +78,14 @@ function App() {
         ></Menu>
         <main>
           <Routes>
-            <Route path="/" element={<Inicio productos={productos}/>}></Route>
+            <Route path="/" element={<Inicio productos={productos} />}></Route>
             <Route
               path="/detalle/:id"
-              element={<DetalleProducto buscarProducto={buscarProducto}></DetalleProducto>}
+              element={
+                <DetalleProducto
+                  buscarProducto={buscarProducto}
+                ></DetalleProducto>
+              }
             ></Route>
             <Route
               path="/login"
@@ -82,9 +95,35 @@ function App() {
               path="/administrador"
               element={<ProtectorAdmin isAdmin={usuarioAdmin}></ProtectorAdmin>}
             >
-              <Route index element={<Administrador setProductos={setProductos} productos={productos} borrarProducto={borrarProducto}></Administrador>}></Route>
-              <Route path="crear" element={<FormularioProducto titulo={'Crear producto'} crearProducto={crearProducto}></FormularioProducto>}></Route>
-              <Route path="editar/:id" element={<FormularioProducto titulo={'Editar producto'} buscarProducto={buscarProducto} editarProducto={editarProducto}></FormularioProducto>}></Route>
+              <Route
+                index
+                element={
+                  <Administrador
+                    setProductos={setProductos}
+                    productos={productos}
+                    borrarProducto={borrarProducto}
+                  ></Administrador>
+                }
+              ></Route>
+              <Route
+                path="crear"
+                element={
+                  <FormularioProducto
+                    titulo={"Crear producto"}
+                    crearProducto={crearProducto}
+                  ></FormularioProducto>
+                }
+              ></Route>
+              <Route
+                path="editar/:id"
+                element={
+                  <FormularioProducto
+                    titulo={"Editar producto"}
+                    buscarProducto={buscarProducto}
+                    editarProducto={editarProducto}
+                  ></FormularioProducto>
+                }
+              ></Route>
             </Route>
             <Route path="*" element={<Error404></Error404>}></Route>
           </Routes>

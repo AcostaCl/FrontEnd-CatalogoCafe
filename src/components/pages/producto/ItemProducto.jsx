@@ -14,11 +14,11 @@ const ItemProducto = ({ producto, fila, setListaProductos }) => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Eliminar",
       cancelButtonText: "Cancelar",
-    }).then( async(result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         // aqui borro efectivamente el producto
-        const respuesta = await borrarProductoPorID(producto._id)
-        if(respuesta.status === 200){
+        const respuesta = await borrarProductoPorID(producto._id);
+        if (respuesta.status === 200) {
           Swal.fire({
             title: "Producto eliminado",
             text: `El producto ${producto.nombreProducto} fue eliminado correctamente`,
@@ -26,10 +26,10 @@ const ItemProducto = ({ producto, fila, setListaProductos }) => {
           });
           // luego debo actualizar la tabla de productos
           const repuestaProductos = await leerProductos();
-          const productosActualizados = await repuestaProductos.json()
-          setListaProductos(productosActualizados)
-        }else{
-            Swal.fire({
+          const productosActualizados = await repuestaProductos.json();
+          setListaProductos(productosActualizados);
+        } else {
+          Swal.fire({
             title: "Ocurrio un error",
             text: `El producto ${producto.nombreProducto} no pudo ser eliminado.`,
             icon: "error",
@@ -53,7 +53,10 @@ const ItemProducto = ({ producto, fila, setListaProductos }) => {
       </td>
       <td>{producto.categoria}</td>
       <td className="text-center">
-        <Link className="me-lg-2 btn btn-warning" to={'/administrador/editar/'+producto._id}>
+        <Link
+          className="me-lg-2 btn btn-warning"
+          to={"/administrador/editar/" + producto._id}
+        >
           <i className="bi bi-pencil-square"></i>
         </Link>
         <Button variant="danger" onClick={eliminarProducto}>

@@ -2,8 +2,6 @@ const urlproductos = import.meta.env.VITE_API_PRODUCTOS;
 const urlUsuarios = import.meta.env.VITE_API_USUARIOS;
 // get, post, put, delete
 
-console.log(urlproductos);
-
 export const leerProductos = async () => {
   try {
     const respuesta = await fetch(urlproductos);
@@ -30,7 +28,7 @@ export const crearProducto = async (productoNuevo) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-token": JSON.parse(sessionStorage.getItem("userKey")),
+        "x-token": JSON.parse(sessionStorage.getItem("userKey")).token,
       },
       body: JSON.stringify(productoNuevo),
     });
@@ -47,7 +45,7 @@ export const editarProducto = async (productoEditado, id) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "x-token": JSON.parse(sessionStorage.getItem("userKey")),
+        "x-token": JSON.parse(sessionStorage.getItem("userKey")).token,
       },
       body: JSON.stringify(productoEditado),
     });
@@ -62,7 +60,7 @@ export const borrarProductoPorID = async (id) => {
     const respuesta = await fetch(urlproductos + `/${id}`, {
       method: "DELETE",
       headers: {
-        "x-token": JSON.parse(sessionStorage.getItem("userKey")),
+        "x-token": JSON.parse(sessionStorage.getItem("userKey")).token,
       },
     });
     return respuesta;
@@ -81,6 +79,18 @@ export const login = async (datosUsuario) => {
       },
       body: JSON.stringify(datosUsuario),
     });
+    return respuesta;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const leerProductosPaginados = async (page, limit) => {
+  try {
+    const respuesta = await fetch(
+      `${urlproductos}/paginacion?page=${page}&limit=${limit}`
+    );
     return respuesta;
   } catch (error) {
     console.error(error);
